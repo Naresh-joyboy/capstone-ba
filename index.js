@@ -29,25 +29,12 @@ mongoose
     UserModel.findOne({ email: email }).then((user) => {
       if (user) {
         if (user.password === password) {
-          const token = jwt.sign({ email: user.email }, JWT_SECRET);
-          res.json({
-            success: true,
-            data: {
-              token,
-              useremail: user.email
-            }
-          });
+          res.json('success')
         } else {
-          res.json({
-            success: false,
-            message: "The password is incorrect"
-          });
+          res.json("The password is incorrect");
         }
       } else {
-        res.json({
-          success: false,
-          message: "No record existed"
-        });
+        res.json("No record existed");
       }
     });
   });
