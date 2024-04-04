@@ -8,9 +8,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const JWT_SECRET =
-  "jdsudkdsid5841645488151646()jhudksdnkbsjcbdscds21c6ds4v6ds1vds15v4dsvndsdsoiods8789631450dcdudsnisasoduiypewfif";
-
 
 mongoose
   .connect(
