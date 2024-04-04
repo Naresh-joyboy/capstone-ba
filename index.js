@@ -1,11 +1,16 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
 const { UserModel,QueryModel1 } = require("./Employe");
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+
+const JWT_SECRET =
+  "jdsudkdsid5841645488151646()jhudksdnkbsjcbdscds21c6ds4v6ds1vds15v4dsvndsdsoiods8789631450dcdudsnisasoduiypewfif";
+
 
 mongoose
   .connect(
@@ -19,21 +24,34 @@ mongoose
     console.error("Error connecting to database:", error);
   });
 
-app.post("/login", (req, res) => {
-  const { email, password } = req.body;
-  UserModel.findOne({ email: email }).then((user) => {
-    if (user) {
-      if (user.password === password) {
-        res.json("success");
+  app.post("/login", (req, res) => {
+    const { email, password } = req.body;
+    UserModel.findOne({ email: email }).then((user) => {
+      if (user) {
+        if (user.password === password) {
+          const token = jwt.sign({ email: user.email }, JWT_SECRET);
+          res.json({
+            success: true,
+            data: {
+              token,
+              useremail: user.email
+            }
+          });
+        } else {
+          res.json({
+            success: false,
+            message: "The password is incorrect"
+          });
+        }
       } else {
-        res.json("The password is incorrect");
+        res.json({
+          success: false,
+          message: "No record existed"
+        });
       }
-    } else {
-      res.json("No record existed");
-    }
+    });
   });
-});
-
+  
 app.post("/register", (req, res) => {
     UserModel.create(req.body)
     .then((students) => res.json(students) )
