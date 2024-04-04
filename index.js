@@ -7,7 +7,7 @@ const { UserModel,QueryModel1 } = require("./Employe");
 const app = express();
 app.use(express.json());
 app.use(cors(
-  origin="https://sparkly-mousse-07687f.netlify.app/"
+  
 ));
 
 
